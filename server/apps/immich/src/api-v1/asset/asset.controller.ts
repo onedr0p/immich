@@ -87,11 +87,7 @@ export class AssetController {
       );
 
       if (!savedAsset) {
-        await this.backgroundTaskService.deleteFileOnDisk([
-          {
-            originalPath: file.path,
-          } as any,
-        ]); // simulate asset to make use of delete queue (or use fs.unlink instead)
+        //TODO: We should try to avoid controlling our logic flow through exceptions
         throw new BadRequestException('Asset not created');
       }
 
