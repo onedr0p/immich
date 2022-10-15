@@ -78,6 +78,11 @@ export class AlbumController {
     return this.albumService.getAlbumInfo(authUser, albumId);
   }
 
+  @Get('/name/:albumName')
+  async getAlbumInfoByName(@GetAuthUser() authUser: AuthUserDto, @Param('albumName') albumName: string) {
+    return this.albumService.getAlbumInfoByName(authUser, albumName);
+  }
+
   @Delete('/:albumId/assets')
   async removeAssetFromAlbum(
     @GetAuthUser() authUser: AuthUserDto,

@@ -120,6 +120,7 @@ describe('Album service', () => {
       updateAlbum: jest.fn(),
       getListByAssetId: jest.fn(),
       getCountByUserId: jest.fn(),
+      getByName: jest.fn(),
     };
 
     assetRepositoryMock = {

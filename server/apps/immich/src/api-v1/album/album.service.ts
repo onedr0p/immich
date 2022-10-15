@@ -71,6 +71,15 @@ export class AlbumService {
     return mapAlbum(album);
   }
 
+  async getAlbumInfoByName(authUser: AuthUserDto, albumName: string): Promise<AlbumResponseDto> {
+    const album = await this._albumRepository.getByName(authUser.id, albumName);
+
+    if (!album) {
+      throw new NotFoundException('Album Not Found');
+    }
+    return mapAlbum(album);
+  }
+
   async addUsersToAlbum(authUser: AuthUserDto, addUsersDto: AddUsersDto, albumId: string): Promise<AlbumResponseDto> {
     const album = await this._getAlbum({ authUser, albumId });
     const updatedAlbum = await this._albumRepository.addSharedUsers(album, addUsersDto);

@@ -16,6 +16,7 @@ export interface IAlbumRepository {
   create(ownerId: string, createAlbumDto: CreateAlbumDto): Promise<AlbumEntity>;
   getList(ownerId: string, getAlbumsDto: GetAlbumsDto): Promise<AlbumEntity[]>;
   get(albumId: string): Promise<AlbumEntity | undefined>;
+  getByName(userId: string, albumName: string): Promise<AlbumEntity | undefined>;
   delete(album: AlbumEntity): Promise<void>;
   addSharedUsers(album: AlbumEntity, addUsersDto: AddUsersDto): Promise<AlbumEntity>;
   removeUser(album: AlbumEntity, userId: string): Promise<void>;
@@ -42,6 +43,16 @@ export class AlbumRepository implements IAlbumRepository {
 
     private dataSource: DataSource,
   ) {}
+
+  async getByName(userId: string, albumName: string): Promise<AlbumEntity | undefined> {
+    const album = await this.albumRepository.findOne({ where: { albumName, ownerId: userId } });
+
+    if (!album) {
+      return;
+    }
+
+    return album;
+  }
 
   async getCountByUserId(userId: string): Promise<AlbumCountResponseDto> {
     const ownedAlbums = await this.albumRepository.find({ where: { ownerId: userId }, relations: ['sharedUsers'] });
